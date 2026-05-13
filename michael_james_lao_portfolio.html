@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Michael James L. Lao — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0d1b2a; --gold: #f0c040; --gold-dim: #c9962a;
+    --cream: #f5f0e8; --white: #ffffff; --gray: #8a8f9a;
+    --card-bg: #131f2e; --border: rgba(240,192,64,0.18);
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--navy); color: var(--cream); font-family: 'DM Sans', sans-serif; font-weight: 300; overflow-x: hidden; }
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 48px; background: rgba(13,27,42,0.82);
+    backdrop-filter: blur(14px); border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 2px; color: var(--gray); text-decoration: none; text-transform: uppercase; transition: color .25s; }
+  .nav-links a:hover { color: var(--gold); }
+  .hero {
+    min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center; padding: 120px 48px 80px; position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse 60% 80% at 80% 40%, rgba(240,192,64,0.07) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 50% at 10% 80%, rgba(240,192,64,0.04) 0%, transparent 70%);
+  }
+  .hero-grid-lines {
+    position: absolute; inset: 0; z-index: 0;
+    background-image: linear-gradient(rgba(240,192,64,0.04) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(240,192,64,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-left { position: relative; z-index: 1; }
+  .hero-tag { display: inline-block; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; border: 1px solid var(--gold); padding: 6px 14px; border-radius: 2px; margin-bottom: 28px; animation: fadeUp .6s ease both; }
+  .hero-name { font-family: 'Playfair Display', serif; font-size: clamp(52px, 6vw, 90px); font-weight: 900; line-height: .95; color: var(--white); margin-bottom: 24px; animation: fadeUp .6s ease .1s both; }
+  .hero-name span { color: var(--gold); }
+  .hero-bio { font-size: 15px; line-height: 1.8; color: var(--gray); max-width: 420px; margin-bottom: 40px; animation: fadeUp .6s ease .2s both; }
+  .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; animation: fadeUp .6s ease .3s both; }
+  .btn-primary { background: var(--gold); color: var(--navy); font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; border: none; padding: 14px 28px; cursor: pointer; font-weight: 500; text-decoration: none; transition: background .2s, transform .2s; display: inline-block; }
+  .btn-primary:hover { background: var(--gold-dim); transform: translateY(-2px); }
+  .btn-outline { border: 1px solid var(--border); color: var(--cream); background: transparent; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; padding: 14px 28px; cursor: pointer; text-decoration: none; display: inline-block; transition: border-color .2s, color .2s, transform .2s; }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+  .hero-right { position: relative; z-index: 1; display: flex; justify-content: center; align-items: center; animation: fadeUp .7s ease .15s both; }
+  .photo-frame { position: relative; width: 300px; }
+  .photo-frame::before { content: ''; position: absolute; top: 20px; left: 20px; right: -20px; bottom: -20px; border: 2px solid var(--gold); z-index: 0; }
+  .photo-placeholder { position: relative; z-index: 1; width: 300px; height: 360px; background: linear-gradient(135deg, #1a2d42 0%, #0d1b2a 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; }
+  .photo-initials { font-family: 'Playfair Display', serif; font-size: 80px; font-weight: 900; color: var(--gold); opacity: .18; line-height: 1; }
+  .photo-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-top: 12px; }
+  .status-badge { position: absolute; bottom: -16px; left: 50%; transform: translateX(-50%); background: var(--gold); color: var(--navy); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; padding: 8px 20px; white-space: nowrap; font-weight: 500; }
+  .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin: 0 48px; }
+  .stat { padding: 32px 24px; text-align: center; border-right: 1px solid var(--border); }
+  .stat:last-child { border-right: none; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 900; color: var(--gold); line-height: 1; }
+  .stat-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--gray); text-transform: uppercase; margin-top: 8px; }
+  section { padding: 100px 48px; }
+  .section-header { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
+  .section-num { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 4vw, 52px); font-weight: 700; color: var(--white); }
+  .section-line { flex: 1; height: 1px; background: var(--border); }
+  .timeline { position: relative; }
+  .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--gold), transparent); }
+  .timeline-item { position: relative; padding: 0 0 56px 48px; opacity: 0; transform: translateY(24px); transition: opacity .5s ease, transform .5s ease; }
+  .timeline-item.visible { opacity: 1; transform: translateY(0); }
+  .timeline-dot { position: absolute; left: -6px; top: 6px; width: 13px; height: 13px; border-radius: 50%; background: var(--gold); border: 2px solid var(--navy); }
+  .timeline-date { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
+  .timeline-role { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .timeline-company { font-size: 13px; color: var(--gray); margin-bottom: 16px; font-family: 'DM Mono', monospace; letter-spacing: 1px; }
+  .timeline-tasks { list-style: none; }
+  .timeline-tasks li { font-size: 14px; color: var(--cream); line-height: 1.7; padding: 4px 0; display: flex; gap: 10px; align-items: flex-start; }
+  .timeline-tasks li::before { content: '—'; color: var(--gold); flex-shrink: 0; }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+  .skill-card { background: var(--card-bg); border: 1px solid var(--border); padding: 24px 20px; text-align: center; opacity: 0; transform: translateY(16px); transition: opacity .4s ease, transform .4s ease, border-color .2s; }
+  .skill-card.visible { opacity: 1; transform: translateY(0); }
+  .skill-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+  .skill-icon { font-size: 28px; margin-bottom: 10px; }
+  .skill-name { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1.5px; color: var(--cream); text-transform: uppercase; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .info-card { background: var(--card-bg); border: 1px solid var(--border); padding: 40px; opacity: 0; transform: translateY(16px); transition: opacity .5s ease, transform .5s ease, border-color .2s; }
+  .info-card.visible { opacity: 1; transform: translateY(0); }
+  .info-card:hover { border-color: var(--gold); }
+  .info-card-title { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 20px; }
+  .info-card h3 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+  .info-card p { font-size: 13px; color: var(--gray); line-height: 1.7; }
+  .info-card ul { list-style: none; margin-top: 12px; }
+  .info-card ul li { font-size: 13px; color: var(--cream); padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 8px; }
+  .info-card ul li::before { content: '◆'; color: var(--gold); font-size: 7px; flex-shrink: 0; }
+  .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .contact-card { background: var(--card-bg); border: 1px solid var(--border); padding: 32px; display: flex; align-items: center; gap: 20px; transition: border-color .2s, transform .2s; }
+  .contact-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+  .contact-icon { font-size: 24px; flex-shrink: 0; }
+  .contact-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 4px; }
+  .contact-value { font-size: 13px; color: var(--cream); }
+  footer { border-top: 1px solid var(--border); padding: 32px 48px; display: flex; justify-content: space-between; align-items: center; }
+  footer p { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--gray); letter-spacing: 1px; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; } .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 100px 20px 60px; text-align: center; }
+    .hero-bio { margin: 0 auto 32px; } .hero-cta { justify-content: center; }
+    .hero-right { margin-top: 48px; }
+    .stats-bar { grid-template-columns: repeat(2,1fr); margin: 0 20px; }
+    section { padding: 64px 20px; }
+    .two-col, .contact-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">MJL</div>
+  <ul class="nav-links">
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-left">
+    <div class="hero-tag">Available for Opportunities</div>
+    <h1 class="hero-name">Michael<br>James<br><span>L. Lao</span></h1>
+    <p class="hero-bio">IT graduate and full-stack developer with expertise in web development, systems creation, and data management. Bringing technical depth and BPO experience to every project.</p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn-primary">Get In Touch</a>
+      <a href="#experience" class="btn-outline">View Work</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="photo-frame">
+      <div class="photo-placeholder">
+        <div class="photo-initials">MJL</div>
+        <div class="photo-label">Michael James L. Lao</div>
+      </div>
+      <div class="status-badge">Junior Web Developer · City Assessor's Office</div>
+    </div>
+  </div>
+</section>
+
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">6+</div><div class="stat-label">Years Experience</div></div>
+  <div class="stat"><div class="stat-num">5</div><div class="stat-label">Companies</div></div>
+  <div class="stat"><div class="stat-num">BSIT</div><div class="stat-label">Degree</div></div>
+  <div class="stat"><div class="stat-num">2×</div><div class="stat-label">Civil Service Eligible</div></div>
+</div>
+
+<section id="experience">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Experience</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">August 2023 — Present</div>
+      <div class="timeline-role">Junior Web Developer</div>
+      <div class="timeline-company">City Assessor's Office · Davao City</div>
+      <ul class="timeline-tasks">
+        <li>Create necessary systems requested by superiors</li>
+        <li>Extract data from existing database of the office's current system</li>
+        <li>Assist with testing new systems being created for the office</li>
+        <li>Ensure new systems meet employees' and BLGF's requirements</li>
+      </ul>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">August 2022 — August 2023</div>
+      <div class="timeline-role">Customer Service Representative</div>
+      <div class="timeline-company">VXI SM Davao · AT&T U-verse Account</div>
+      <ul class="timeline-tasks">
+        <li>Assisted AT&T customers with billing inquiries</li>
+        <li>Responsible for making sales on the U-verse broadband account</li>
+      </ul>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">May 2022 — June 2022</div>
+      <div class="timeline-role">Full Stack Developer</div>
+      <div class="timeline-company">Webee Labs</div>
+      <ul class="timeline-tasks">
+        <li>Learned Laravel and WordPress development</li>
+        <li>Fixed issues and added features to existing company websites</li>
+      </ul>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">October 2021 — April 2022</div>
+      <div class="timeline-role">Software Developer</div>
+      <div class="timeline-company">Anflo Management and Investment Corp.</div>
+      <ul class="timeline-tasks">
+        <li>Studied new programming languages for company needs</li>
+        <li>Created software tools essential to the company's operations</li>
+      </ul>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">September 2020 — October 2021</div>
+      <div class="timeline-role">ICT and Data Manager</div>
+      <div class="timeline-company">Institute for Autonomy and Governance</div>
+      <ul class="timeline-tasks">
+        <li>Created and maintained the organization's website</li>
+        <li>Responsible for computer troubleshooting and technical facilities</li>
+        <li>Facilitated the conference hall during events</li>
+      </ul>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">May 2019 — September 2020</div>
+      <div class="timeline-role">Research Assistant</div>
+      <div class="timeline-company">Institute for Autonomy and Governance</div>
+      <ul class="timeline-tasks">
+        <li>Maintained the organization's website</li>
+        <li>Assisted the Head of Research with research projects</li>
+        <li>Compiled data and created infographics</li>
+        <li>Handled computer troubleshooting and technical facilities</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="skills" style="background: rgba(255,255,255,0.02);">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Skills & Tools</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card"><div class="skill-icon">🌐</div><div class="skill-name">Web Dev</div></div>
+    <div class="skill-card"><div class="skill-icon">🐘</div><div class="skill-name">Laravel</div></div>
+    <div class="skill-card"><div class="skill-icon">🔧</div><div class="skill-name">WordPress</div></div>
+    <div class="skill-card"><div class="skill-icon">🗄️</div><div class="skill-name">Databases</div></div>
+    <div class="skill-card"><div class="skill-icon">📊</div><div class="skill-name">Microsoft Office</div></div>
+    <div class="skill-card"><div class="skill-icon">🗂️</div><div class="skill-name">MS Access</div></div>
+    <div class="skill-card"><div class="skill-icon">💻</div><div class="skill-name">Full Stack</div></div>
+    <div class="skill-card"><div class="skill-icon">🎨</div><div class="skill-name">Infographics</div></div>
+    <div class="skill-card"><div class="skill-icon">🛠️</div><div class="skill-name">IT Support</div></div>
+    <div class="skill-card"><div class="skill-icon">📞</div><div class="skill-name">BPO / CRM</div></div>
+    <div class="skill-card"><div class="skill-icon">🧪</div><div class="skill-name">QA Testing</div></div>
+    <div class="skill-card"><div class="skill-icon">👥</div><div class="skill-name">Leadership</div></div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Education & Eligibility</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="two-col">
+    <div class="info-card">
+      <div class="info-card-title">Education</div>
+      <h3>Notre Dame University</h3>
+      <p>Bachelor of Science in Information Technology · 2015–2019</p>
+      <ul>
+        <li>Former Vice-President, College of Computer Studies</li>
+        <li>MOS: Microsoft Office & Microsoft Access</li>
+        <li>Leadership Training (2017–2018)</li>
+        <li>OJT at MrPau Softwares, Davao City</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <div class="info-card-title">Civil Service Eligibility</div>
+      <h3>Career Service Examination</h3>
+      <p>Passed both levels of the Philippine Civil Service Examination.</p>
+      <ul>
+        <li>Subprofessional Level — March 18, 2018</li>
+        <li>Professional Level — March 17, 2019</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="background: rgba(255,255,255,0.02);">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Contact</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-card">
+      <div class="contact-icon">✉️</div>
+      <div><div class="contact-label">Email</div><div class="contact-value">jekimlao16@gmail.com</div></div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-icon">📱</div>
+      <div><div class="contact-label">Phone</div><div class="contact-value">+63 997 612 9248</div></div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-icon">📍</div>
+      <div><div class="contact-label">Location</div><div class="contact-value">Davao City, Philippines</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Michael James L. Lao</p>
+  <p>BSIT · Web Developer · Davao City</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.timeline-item, .skill-card, .info-card').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
