@@ -92,7 +92,7 @@ const CONTACTS = [
   { icon: "📍", label: "Location", value: "Davao City, Philippines" },
 ];
 
-function useInView(options = {}) {
+function useInView() {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
@@ -100,7 +100,7 @@ function useInView(options = {}) {
     if (!el) return;
     const obs = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) { setVisible(true); obs.disconnect(); }
-    }, { threshold: 0.12, ...options });
+    }, { threshold: 0.12 });
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
